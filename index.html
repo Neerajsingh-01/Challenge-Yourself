@@ -53,8 +53,15 @@
 					<h1>Challenge Yourself</h1>
 					<p>Create a task and set a time limit - beat the clock!</p>
 				</div>
-				<div class="header-controls">
-					<span id="user-greeting" class="user-greeting"></span>
+				<div class="header-controls">				<div class="sound-selector">
+					<label for="alarm-select" style="font-size:0.9rem;margin-right:6px;">Sound:</label>
+					<select id="alarm-select" style="padding:6px 8px;border-radius:6px;font-size:0.85rem;background:var(--input);border:1px solid rgba(255,255,255,0.04);color:var(--text);">
+						<option value="default">Default Bell</option>
+						<option value="chime">Chime</option>
+						<option value="alert">Alert</option>
+						<option value="gentle">Gentle</option>
+					</select>
+				</div>					<span id="user-greeting" class="user-greeting"></span>
 					<button id="logout-btn" class="btn" type="button">Logout</button>
 					<button id="test-sound" class="btn" type="button">Test Alarm</button>
 					<button id="theme-toggle" class="theme-switch" type="button" aria-label="Toggle theme"></button>
@@ -65,10 +72,40 @@
 		<main class="container">
 			<div id="react-quote-root" class="quote-root"></div>
 
-			<section class="panel">
+			<section class="panel task-creation-panel">
+				<h2>Create Challenge</h2>
 				<form id="task-form">
 					<input id="title" type="text" placeholder="Task title" required />
 					<textarea id="desc" placeholder="Description (optional)" rows="2"></textarea>
+
+					<div class="form-row">
+						<div class="form-group">
+							<label for="category">Category</label>
+							<select id="category" required>
+								<option value="work">Work</option>
+								<option value="personal">Personal</option>
+								<option value="fitness">Fitness</option>
+								<option value="learning">Learning</option>
+								<option value="other">Other</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="difficulty">Difficulty</label>
+							<select id="difficulty" required>
+								<option value="easy">Easy ⭐</option>
+								<option value="medium">Medium ⭐⭐</option>
+								<option value="hard">Hard ⭐⭐⭐</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="priority">Priority</label>
+							<select id="priority" required>
+								<option value="low">Low 🟢</option>
+								<option value="medium">Medium 🟡</option>
+								<option value="high">High 🔴</option>
+							</select>
+						</div>
+					</div>
 
 					<div class="time-grid">
 						<div class="time-field"><label>Months</label><input id="months" type="number" min="0" value="0"/></div>
@@ -78,25 +115,161 @@
 						<div class="time-field"><label>Seconds</label><input id="seconds" type="number" min="0" value="0"/></div>
 					</div>
 
+					<div class="recurring-options">
+						<label><input type="checkbox" id="recurring-enabled"> Repeat Task</label>
+						<select id="recurring-pattern" class="hidden">
+							<option value="daily">Daily</option>
+							<option value="weekly">Weekly</option>
+							<option value="monthly">Monthly</option>
+						</select>
+					</div>
+
 					<div class="actions">
 						<button type="submit" class="btn primary">Create Task</button>
+						<button type="button" class="btn" id="template-btn">📋 Use Template</button>
 					</div>
 				</form>
 			</section>
 
-			<section class="panel">
+			<section class="panel achievements-panel">
+				<h2>Achievements</h2>
+				<div id="achievements-display" class="achievements-grid">
+					<div class="achievement-item">🏆 Tasks Completed: <span id="completed-count">0</span></div>
+					<div class="achievement-item">🔥 Current Streak: <span id="streak-count">0</span></div>
+					<div class="achievement-item">⚡ Total Difficulty: <span id="total-difficulty">0</span></div>
+				</div>
+			</section>
+
+<section class="panel stats-panel">
+			<h2>Statistics</h2>
+			<div id="stats-display" class="stats-grid">
+				<div class="stat-item"><strong id="stat-completed">0</strong><br>Completed</div>
+				<div class="stat-item"><strong id="stat-failed">0</strong><br>Failed</div>
+				<div class="stat-item"><strong id="stat-success-rate">0%</strong><br>Success Rate</div>
+				<div class="stat-item"><strong id="stat-avg-time">0m</strong><br>Avg Time</div>
+			</div>
+			<div id="category-stats" class="category-stats"></div>
+		</section>
+
+		<section class="panel">
+			<div class="task-header">
 				<h2>Active Tasks</h2>
-				<ul id="task-list" class="task-list"></ul>
+				<div class="task-controls">
+					<input type="text" id="search-tasks" placeholder="Search tasks..." class="search-input">
+					<select id="filter-category" class="filter-select">
+						<option value="">All Categories</option>
+						<option value="work">Work</option>
+						<option value="personal">Personal</option>
+						<option value="fitness">Fitness</option>
+						<option value="learning">Learning</option>
+						<option value="other">Other</option>
+					</select>
+					<select id="filter-priority" class="filter-select">
+						<option value="">All Priority</option>
+						<option value="high">High 🔴</option>
+						<option value="medium">Medium 🟡</option>
+						<option value="low">Low 🟢</option>
+					</select>
+					<button id="export-btn" class="btn export-btn" title="Export tasks">💾 Export</button>
+				</div>
+			</div>
+			<ul id="task-list" class="task-list"></ul>
+		</section>
+
+		<section class="panel">
+			<h2>📅 Streak Calendar</h2>
+			<div id="streak-calendar" class="streak-calendar"></div>
+		</section>
+
+		<section class="panel">
+			<h2>Reminders Settings</h2>
+			<div class="reminders-grid">
+				<label><input type="checkbox" id="reminder-5min" checked> 5 minutes before</label>
+				<label><input type="checkbox" id="reminder-1min" checked> 1 minute before</label>
+				<label><input type="checkbox" id="reminder-30sec" checked> 30 seconds before</label>
+			</div>
 			</section>
 
-			<section class="panel">
-				<h2>History</h2>
-				<ul id="history-list" class="task-list history-list"></ul>
-				<div class="actions"><button id="clear-history" class="btn" type="button">Clear History</button></div>
-			</section>
-		</main>
+		<section class="panel">
+			<h2>Challenge Templates</h2>
+			<div id="templates-grid" class="templates-grid"></div>
+		</section>
 
+		<section class="panel analytics-panel">
+			<h2>📊 Analytics & Time Tracking</h2>
+			<div id="analytics-container" class="analytics-container">
+				<div id="time-by-category" class="chart-container"></div>
+				<div id="completion-chart" class="chart-container"></div>
+			</div>
+		</section>
 		<audio id="alarm-audio" src="Audio/subah_ho_gayi_mamu.mp3" preload="auto"></audio>
+
+	<!-- Edit Task Modal -->
+	<div id="edit-modal" class="modal hidden">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2>Edit Task</h2>
+				<button class="modal-close" id="modal-close" type="button">&times;</button>
+			</div>
+			<form id="edit-form" class="modal-form">
+				<div class="form-group">
+					<label for="edit-title">Title</label>
+					<input id="edit-title" type="text" required>
+				</div>
+				<div class="form-group">
+					<label for="edit-desc">Description</label>
+					<textarea id="edit-desc" rows="2"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="edit-notes">Notes</label>
+					<textarea id="edit-notes" rows="2" placeholder="Add notes about this task..."></textarea>
+				</div>
+				<div class="form-row">
+					<div class="form-group">
+						<label for="edit-category">Category</label>
+						<select id="edit-category" required>
+							<option value="work">Work</option>
+							<option value="personal">Personal</option>
+							<option value="fitness">Fitness</option>
+							<option value="learning">Learning</option>
+							<option value="other">Other</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="edit-difficulty">Difficulty</label>
+						<select id="edit-difficulty" required>
+							<option value="easy">Easy ⭐</option>
+							<option value="medium">Medium ⭐⭐</option>
+							<option value="hard">Hard ⭐⭐⭐</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="edit-priority">Priority</label>
+						<select id="edit-priority" required>
+							<option value="low">Low 🟢</option>
+							<option value="medium">Medium 🟡</option>
+							<option value="high">High 🔴</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-actions">
+					<button type="submit" class="btn primary">Save Changes</button>
+					<button type="button" class="btn" id="modal-cancel">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- Templates Modal -->
+	<div id="templates-modal" class="modal hidden">
+		<div class="modal-content modal-large">
+			<div class="modal-header">
+				<h2>Challenge Templates</h2>
+				<button class="modal-close" id="templates-modal-close" type="button">&times;</button>
+			</div>
+			<div id="templates-list" class="templates-list"></div>
+		</div>
+	</div>
 
 		<div id="landing" class="overlay">
 			<div class="card landing-card">
@@ -128,7 +301,15 @@
 
 	<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 	<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 	<script src="quotes-widget.js"></script>
+	<script src="modules/recurring-tasks.js"></script>
+	<script src="modules/task-notes.js"></script>
+	<script src="modules/export-backup.js"></script>
+	<script src="modules/analytics.js"></script>
+	<script src="modules/task-templates.js"></script>
+	<script src="modules/priority-system.js"></script>
+	<script src="modules/notifications-enhanced.js"></script>
 	<script src="main.js"></script>
 </body>
 </html>
