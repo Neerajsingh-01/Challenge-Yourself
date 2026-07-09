@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+	<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Challenge Yourself</title>
+	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+	</head>
+<body>
+	<header class="site-header">
+		<div class="marquee"><span>CHALLENGE YOURSELF EVERYDAY</span></div>
+		<div class="header-row">
+			<div>
+				<h1>Challenge Yourself</h1>
+				<p>Create a task and set a time limit — beat the clock!</p>
+			</div>
+			<div class="header-controls">
+				<button id="test-sound" class="btn">Test Alarm</button>
+			<button id="theme-toggle" class="theme-switch" type="button" aria-label="Toggle theme"></button>
+			</div>
+		</div>
+	</header>
+
+	<main class="container">
+		<section class="panel">
+			<form id="task-form">
+				<input id="title" type="text" placeholder="Task title" required />
+				<textarea id="desc" placeholder="Description (optional)" rows="2"></textarea>
+
+				<div class="time-grid">
+					<div class="time-field"><label>Months</label><input id="months" type="number" min="0" value="0"/></div>
+					<div class="time-field"><label>Days</label><input id="days" type="number" min="0" value="0"/></div>
+					<div class="time-field"><label>Hours</label><input id="hours" type="number" min="0" value="0"/></div>
+					<div class="time-field"><label>Minutes</label><input id="minutes" type="number" min="0" value="10"/></div>
+					<div class="time-field"><label>Seconds</label><input id="seconds" type="number" min="0" value="0"/></div>
+				</div>
+
+				<div class="actions">
+					<button type="submit" class="btn primary">Create Task</button>
+				</div>
+			</form>
+		</section>
+
+		<section class="panel">
+			<h2>Active Tasks</h2>
+			<ul id="task-list" class="task-list"></ul>
+		</section>
+
+		<section class="panel">
+			<h2>History</h2>
+			<ul id="history-list" class="task-list history-list"></ul>
+			<div class="actions"><button id="clear-history" class="btn">Clear History</button></div>
+		</section>
+	</main>
+
+	<audio id="alarm-audio" src="Audio/subah_ho_gayi_mamu.mp3" preload="auto"></audio>
+
+	<!-- Landing overlays -->
+	<div id="landing" class="overlay">
+		<div class="card landing-card">
+			<h2 class="landing-title">
+				<span class="landing-word" style="--delay:0">Are</span>
+				<span class="landing-word" style="--delay:1">you</span>
+				<span class="landing-word" style="--delay:2">ready</span>
+				<span class="landing-word" style="--delay:3">to</span>
+				<span class="landing-word" style="--delay:4">challenge</span>
+				<span class="landing-word" style="--delay:5">your-self?</span>
+			</h2>
+			<div class="actions">
+				<button id="landing-yes" class="btn primary">Yes</button>
+				<button id="landing-no" class="btn">No</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="no-page" class="overlay hidden">
+		<div class="card">
+			<h2>Seriously ? come on</h2>
+			<p>Challenging yourself makes you a better version of yourself</p>
+			<div class="actions">
+				<button id="ready-btn" class="btn flame">I am ready</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="main.js"></script>
+</body>
+</html>
