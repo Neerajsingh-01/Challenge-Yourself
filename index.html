@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+	<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Challenge Yourself</title>
+	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+	</head>
+<body>
+	<section id="auth-page" class="auth-page">
+		<div class="auth-shell">
+			<div class="auth-intro">
+				<p class="eyebrow">Challenge Yourself</p>
+				<h1>Sign in to keep your goals moving.</h1>
+				<p>Track your tasks, beat the clock, and come back to your challenge history anytime.</p>
+			</div>
+
+			<div class="auth-card">
+				<div class="auth-tabs" role="tablist" aria-label="Authentication forms">
+					<button id="signin-tab" class="auth-tab active" type="button" aria-controls="signin-form">Sign In</button>
+					<button id="register-tab" class="auth-tab" type="button" aria-controls="register-form">Register</button>
+				</div>
+
+				<form id="signin-form" class="auth-form">
+					<label for="signin-email">Email</label>
+					<input id="signin-email" type="email" placeholder="you@example.com" required>
+					<label for="signin-password">Password</label>
+					<input id="signin-password" type="password" placeholder="Enter your password" required>
+					<button class="btn primary auth-submit" type="submit">Sign In</button>
+				</form>
+
+				<form id="register-form" class="auth-form hidden" autocomplete="on">
+					<label for="register-name">Name</label>
+					<input id="register-name" type="text" placeholder="Your name" required>
+					<label for="register-email">Email</label>
+					<input id="register-email" type="email" placeholder="you@example.com" required>
+					<label for="register-password">Password</label>
+					<input id="register-password" type="password" placeholder="Create a password" minlength="6" required>
+					<button class="btn primary auth-submit" type="submit">Create Account</button>
+				</form>
+
+				<p id="auth-message" class="auth-message" aria-live="polite"></p>
+			</div>
+		</div>
+	</section>
+
+	<div id="app-shell" class="hidden">
+		<header class="site-header">
+			<div class="marquee"><span>CHALLENGE YOURSELF EVERYDAY</span></div>
+			<div class="header-row">
+				<div>
+					<h1>Challenge Yourself</h1>
+					<p>Create a task and set a time limit - beat the clock!</p>
+				</div>
+				<div class="header-controls">
+					<span id="user-greeting" class="user-greeting"></span>
+					<button id="logout-btn" class="btn" type="button">Logout</button>
+					<button id="test-sound" class="btn" type="button">Test Alarm</button>
+					<button id="theme-toggle" class="theme-switch" type="button" aria-label="Toggle theme"></button>
+				</div>
+			</div>
+		</header>
+
+		<main class="container">
+			<div id="react-quote-root" class="quote-root"></div>
+
+			<section class="panel">
+				<form id="task-form">
+					<input id="title" type="text" placeholder="Task title" required />
+					<textarea id="desc" placeholder="Description (optional)" rows="2"></textarea>
+
+					<div class="time-grid">
+						<div class="time-field"><label>Months</label><input id="months" type="number" min="0" value="0"/></div>
+						<div class="time-field"><label>Days</label><input id="days" type="number" min="0" value="0"/></div>
+						<div class="time-field"><label>Hours</label><input id="hours" type="number" min="0" value="0"/></div>
+						<div class="time-field"><label>Minutes</label><input id="minutes" type="number" min="0" value="10"/></div>
+						<div class="time-field"><label>Seconds</label><input id="seconds" type="number" min="0" value="0"/></div>
+					</div>
+
+					<div class="actions">
+						<button type="submit" class="btn primary">Create Task</button>
+					</div>
+				</form>
+			</section>
+
+			<section class="panel">
+				<h2>Active Tasks</h2>
+				<ul id="task-list" class="task-list"></ul>
+			</section>
+
+			<section class="panel">
+				<h2>History</h2>
+				<ul id="history-list" class="task-list history-list"></ul>
+				<div class="actions"><button id="clear-history" class="btn" type="button">Clear History</button></div>
+			</section>
+		</main>
+
+		<audio id="alarm-audio" src="Audio/subah_ho_gayi_mamu.mp3" preload="auto"></audio>
+
+		<div id="landing" class="overlay">
+			<div class="card landing-card">
+				<h2 class="landing-title">
+					<span class="landing-word" style="--delay:0">Are</span>
+					<span class="landing-word" style="--delay:1">you</span>
+					<span class="landing-word" style="--delay:2">ready</span>
+					<span class="landing-word" style="--delay:3">to</span>
+					<span class="landing-word" style="--delay:4">challenge</span>
+					<span class="landing-word" style="--delay:5">yourself?</span>
+				</h2>
+				<div class="actions">
+					<button id="landing-yes" class="btn primary" type="button">Yes</button>
+					<button id="landing-no" class="btn" type="button">No</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="no-page" class="overlay hidden">
+			<div class="card">
+				<h2>Seriously? Come on</h2>
+				<p>Challenging yourself makes you a better version of yourself</p>
+				<div class="actions">
+					<button id="ready-btn" class="btn flame" type="button">I am ready</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+	<script src="quotes-widget.js"></script>
+	<script src="main.js"></script>
+</body>
+</html>
